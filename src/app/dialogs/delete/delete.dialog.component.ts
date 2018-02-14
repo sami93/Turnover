@@ -1,6 +1,11 @@
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {Component, Inject} from '@angular/core';
 import {DataService} from '../../services/data.service';
+import swal from 'sweetalert2';
+import {PredictionService} from '../../services/prediction.service';
+import {Router} from '@angular/router';
+import {Http} from '@angular/http';
+import {DataSetService} from '../../services/dataset.service';
 
 
 @Component({
@@ -10,7 +15,12 @@ import {DataService} from '../../services/data.service';
 })
 export class DeleteDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<DeleteDialogComponent>,
+  constructor(public http: Http,
+              public dialog: MatDialog,
+              public datasetService: DataSetService,
+              public predictionservice: PredictionService,
+              private router: Router,
+      public dialogRef: MatDialogRef<DeleteDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any, public dataService: DataService) { }
 
   onNoClick(): void {
@@ -18,6 +28,6 @@ export class DeleteDialogComponent {
   }
 
   confirmDelete(): void {
-    this.dataService.deleteIssue(this.data.id);
+    console.log('11111111111')
   }
 }

@@ -5,7 +5,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Id" [(ngModel)]="data.id" name="id" required >
+        <input matInput #input class="form-control" placeholder="Matricule" [(ngModel)]="data.Matricule" name="Matricule" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
@@ -23,13 +23,13 @@
       <mat-form-field color="accent">
         <input matInput #inputstate class="form-control" placeholder="Civilite" [(ngModel)]="data.Civilite" name="Civilite" maxlength="10" required >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-        <mat-hint align="end">{{inputstate.value?.length || 0}}/10</mat-hint>
+      <!--  <mat-hint align="end">{{inputstate.value?.length || 0}}/10</mat-hint> -->
       </mat-form-field>
     </div>
 
     <div class="form">
         <mat-form-field color="accent">
-          <input matInput placeholder="SITUATION_FAMILIALE" [(ngModel)]="data.SITUATION_FAMILIALE" name="url">
+          <input matInput placeholder="SITUATION_FAMILIALE" [(ngModel)]="data.SITUATION_FAMILIALE" name="SITUATION_FAMILIALE">
         </mat-form-field>
     </div>
 
@@ -39,10 +39,70 @@
       </mat-form-field>
     </div>
 
-
+      <div class="form">
+          <mat-form-field color="accent">
+              <input matInput placeholder="EXPERIENCE_AVANT_SOFRECOM" [(ngModel)]="data.EXPERIENCE_AVANT_SOFRECOM" name="EXPERIENCE_AVANT_SOFRECOM">
+          </mat-form-field>
+      </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="EXPERIENCE_SOFRECOM" [(ngModel)]="data.EXPERIENCE_SOFRECOM" name="EXPERIENCE_SOFRECOM">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="EXPERIENCE_Totale" [(ngModel)]="data.EXPERIENCE_Totale" name="EXPERIENCE_Totale">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Ecole" [(ngModel)]="data.Ecole" name="Ecole">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Ecole" [(ngModel)]="data.Ecole" name="Ecole">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Manager" [(ngModel)]="data.Manager" name="Ecole">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Metier" [(ngModel)]="data.Metier" name="Metier">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Pole" [(ngModel)]="data.Pole" name="Pole">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Poste" [(ngModel)]="data.Poste" name="Poste">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="C1" [(ngModel)]="data.C1" name="C1">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="C2" [(ngModel)]="data.C2" name="C2">
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput placeholder="C3" [(ngModel)]="data.C3" name="C3">
+      </mat-form-field>
+    </div>
     <div mat-dialog-actions>
       <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
       <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
     </div>
   </form>
+
 </div>

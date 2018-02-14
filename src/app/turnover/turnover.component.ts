@@ -28,11 +28,11 @@ import {Router} from '@angular/router';
     styleUrls: ['./turnover.component.css']
 })
 export class TurnoverComponent implements OnInit {
-    displayedColumns = ['id', 'Name', 'Civilite', 'SITUATION_FAMILIALE', 'DateEmbauche', 'actions'];
+    displayedColumns = ['Matricule', 'Name', 'Civilite', 'SITUATION_FAMILIALE', 'DateEmbauche', 'actions'];
     exampleDatabase: DataService | null;
     dataSource: ExampleDataSource | null;
     index: number;
-    id2: number;
+    Matricule2: number;
     predict_value: any;
     name_value: any;
     column_names: any[];
@@ -70,6 +70,7 @@ export class TurnoverComponent implements OnInit {
             }
         });
     }
+
     getDataSets() {
         this.datasetService.getDataSets().subscribe(
             data => console.log(data),
@@ -434,6 +435,7 @@ export class TurnoverComponent implements OnInit {
                 this.erreur(errorPrediction, 'errorPrediction');
             });
     }
+
     private extractData2(res: Response) {
 
         const body = res.json();
@@ -460,17 +462,18 @@ export class TurnoverComponent implements OnInit {
 
         return body || {};
     }
+
     public infoPersonne(dataset: any) {
         console.log(dataset);
-
-
-        const DataInfo = dataset;
-        swal({
-            title: '  <span style="color:#6495ED;font-weight:bold">'
-            + DataInfo.Name + '</span> ',
-            showConfirmButton: true,
-            width: '825px',
-            html: `<center><table id="table" border=1 class="table table-bordered  table-striped">
+        this.datasetService.getDataSetbyMatricule(dataset).subscribe(
+            data => {
+                const DataInfo = data;
+                swal({
+                    title: '  <span style="color:#6495ED;font-weight:bold">'
+                    + DataInfo.Name + '</span> ',
+                    showConfirmButton: true,
+                    width: '825px',
+                    html: `<center><table id="table" border=1 class="table table-bordered  table-striped">
         <tbody>
             <tr>
             <td>Age</td>
@@ -550,45 +553,100 @@ export class TurnoverComponent implements OnInit {
 </table>
 </center>`,
 
-            type: 'info'
-        })
+                    type: 'info'
+                });
+
+            },
+            error => console.log(error),
+            () => console.log('')
+        );
 
 
     }
 
-    startEdit(i: number, id: number, Name: string, Civilite: string, SITUATION_FAMILIALE: string, DateEmbauche: any) {
+    startEdit(i: number, dataset: any) {
         this.index = i;
-        this.id2 = id;
-        console.log(this.index);
+        this.Matricule2 = dataset.Matricule;
         const dialogRef = this.dialog.open(EditDialogComponent, {
-            data: {id: id, Name: Name, Civilite: Civilite, SITUATION_FAMILIALE: SITUATION_FAMILIALE, DateEmbauche: DateEmbauche}
-        });
+            data: {
+                _id : dataset._id,
+                Matricule: dataset.Matricule,
+                Name: dataset.Name,
+                Civilite: dataset.Civilite,
+                SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE,
+                DateEmbauche: dataset.DateEmbauche,
+                EXPERIENCE_AVANT_SOFRECOM: dataset.EXPERIENCE_AVANT_SOFRECOM,
+                EXPERIENCE_SOFRECOM: dataset.EXPERIENCE_SOFRECOM,
+                EXPERIENCE_Totale: dataset.EXPERIENCE_Totale,
+                Ecole: dataset.Ecole,
+                Manager: dataset.Manager,
+                Metier: dataset.Metier,
+                Pole: dataset.Pole ,
+                Poste: dataset.Poste,
+                C1: dataset.C1,
+                C2: dataset.C2,
+                C3: dataset.C3,
+            }
+    })
+        ;
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 1) {
                 // Part where we do frontend update, first you need to find record using id
-                const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id2);
+                const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.Matricule === this.Matricule2);
                 // Then you update that record using dialogData
                 this.exampleDatabase.dataChange.value[foundIndex] = this.dataService.getDialogData();
+
                 // And lastly refresh table
                 this.refreshTable();
             }
         });
     }
 
-    deleteItem(i: number, id: number, Name: string, Civilite: string, SITUATION_FAMILIALE: string) {
+    deleteItem(i: number, dataset: any) {
         this.index = i;
-        this.id2 = id;
+        this.Matricule2 = dataset.Matricule;
         const dialogRef = this.dialog.open(DeleteDialogComponent, {
-            data: {id: id, Name: Name, Civilite: Civilite, SITUATION_FAMILIALE: SITUATION_FAMILIALE}
+            data: {Matricule: dataset.Matricule, Name: dataset.Name, Civilite: dataset.Civilite, SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE}
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            if (result === 1) {
-                const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.id === this.id2);
-                this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-                this.refreshTable();
-            }
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(() => {
+
+                this.datasetService.deleteDataSet(dataset).subscribe(
+                    res => {
+                        if (result === 1) {
+
+                            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.Matricule === this.Matricule2);
+                            console.log(foundIndex);
+                            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+                            this.refreshTable();
+                        }
+                    },
+                    error => console.log(error)
+                );
+            }, (dismiss) => {
+                // dismiss can be 'cancel', 'overlay',
+                // 'close', and 'timer'
+                if (dismiss === 'cancel') {
+                    swal(
+                        'Cancelled',
+                        'Your DataSet ' + dataset.Name + ' is safe :)',
+                        'error'
+                    )
+                }
+            });
+
+
+
         });
     }
 
@@ -596,6 +654,7 @@ export class TurnoverComponent implements OnInit {
     private refreshTable() {
         // If there's no data in filter we do update using pagination, next page or previous page
         if (this.dataSource._filterChange.getValue() === '') {
+
             if (this.dataSource._paginator.pageIndex === 0) {
                 this.dataSource._paginator.nextPage();
                 this.dataSource._paginator.previousPage();
@@ -607,6 +666,7 @@ export class TurnoverComponent implements OnInit {
         } else {
             this.dataSource.filter = '';
             this.dataSource.filter = this.filter.nativeElement.value;
+
         }
     }
 
@@ -663,13 +723,13 @@ export class ExampleDataSource extends DataSource<Issue> {
         return Observable.merge(...displayDataChanges).map(() => {
             // Filter data
             this.filteredData = this._exampleDatabase.data.slice().filter((issue: Issue) => {
-                const searchStr = (issue.Name + issue.SITUATION_FAMILIALE + issue.DateEmbauche).toLowerCase();
-                return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+                //    const searchStr = (issue.Name + issue.SITUATION_FAMILIALE + issue.DateEmbauche).toLowerCase();
+                const searchStr = (issue.Name + issue.DateEmbauche).toLowerCase();
+                return searchStr.indexOf(this.filter) !== -1;
             });
 
             // Sort filtered data
             const sortedData = this.sortData(this.filteredData.slice());
-
             // Grab the page's slice of the filtered sorted data.
             const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
             this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
@@ -692,8 +752,8 @@ export class ExampleDataSource extends DataSource<Issue> {
             let propertyB: number | string = '';
 
             switch (this._sort.active) {
-                case 'id':
-                    [propertyA, propertyB] = [a.id, b.id];
+                case 'Matricule':
+                    [propertyA, propertyB] = [a.Matricule, b.Matricule];
                     break;
                 case 'Name':
                     [propertyA, propertyB] = [a.Name, b.Name];

@@ -21,9 +21,9 @@
               The actual rendered columns are set as a property on the row definition" -->
 
         <!-- ID Column -->
-        <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-            <mat-cell *matCellDef="let row" >{{row.id}}</mat-cell>
+        <ng-container matColumnDef="Matricule">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Matricule</mat-header-cell>
+            <mat-cell *matCellDef="let row" >{{row.Matricule}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="Name">
@@ -42,7 +42,7 @@
         </ng-container>
 
         <ng-container matColumnDef="DateEmbauche">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>DateEmbauche at</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Date d'Embauche</mat-header-cell>
             <mat-cell *matCellDef="let row"> {{row.DateEmbauche}}</mat-cell>
         </ng-container>
 
@@ -57,12 +57,12 @@
             </mat-header-cell>
 
             <mat-cell *matCellDef="let row; let i=index;">
-                <button mat-icon-button color="accent" (click)="startEdit(i, row.id, row.Name, row.Civilite, row.SITUATION_FAMILIALE, row.DateEmbauche, row.updated_at)">
+                <button mat-icon-button color="accent" (click)="startEdit(i, row)">
                     <mat-icon aria-label="Edit">edit</mat-icon>
                 </button>
                 <button class="btn btn-sm btn-info" (click)="infoPersonne(row)"><i class="fa fa-info" ></i> Info</button>
 
-                <button mat-icon-button color="accent" (click)="deleteItem(i, row.id, row.Name, row.Civilite, row.SITUATION_FAMILIALE)">
+                <button mat-icon-button color="accent" (click)="deleteItem(i, row)">
                     <mat-icon aria-label="Delete">delete</mat-icon>
                 </button>
             </mat-cell>

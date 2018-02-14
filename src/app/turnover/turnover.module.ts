@@ -16,6 +16,7 @@ import {DeleteDialogComponent} from 'app/dialogs/delete/delete.dialog.component'
 import {DataService} from '../services/data.service';
 import {DataSetService} from '../services/dataset.service';
 import {PredictionService} from '../services/prediction.service';
+import {HttpModule} from '@angular/http';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {PredictionService} from '../services/prediction.service';
         MaterialModule,
         ReactiveFormsModule,
         HttpClientModule,
+        HttpModule
 
     ],
 
