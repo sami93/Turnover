@@ -28,7 +28,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./turnover.component.css']
 })
 export class TurnoverComponent implements OnInit {
-    displayedColumns = ['id', 'Name', 'Civilite', 'SITUATION_FAMILIALE', 'DateEmbauche', 'updated_at', 'actions'];
+    displayedColumns = ['id', 'Name', 'Civilite', 'SITUATION_FAMILIALE', 'DateEmbauche', 'actions'];
     exampleDatabase: DataService | null;
     dataSource: ExampleDataSource | null;
     index: number;
@@ -556,12 +556,12 @@ export class TurnoverComponent implements OnInit {
 
     }
 
-    startEdit(i: number, id: number, Name: string, Civilite: string, SITUATION_FAMILIALE: string, DateEmbauche: any, updated_at: string) {
+    startEdit(i: number, id: number, Name: string, Civilite: string, SITUATION_FAMILIALE: string, DateEmbauche: any) {
         this.index = i;
         this.id2 = id;
         console.log(this.index);
         const dialogRef = this.dialog.open(EditDialogComponent, {
-            data: {id: id, Name: Name, Civilite: Civilite, SITUATION_FAMILIALE: SITUATION_FAMILIALE, DateEmbauche: DateEmbauche, updated_at: updated_at}
+            data: {id: id, Name: Name, Civilite: Civilite, SITUATION_FAMILIALE: SITUATION_FAMILIALE, DateEmbauche: DateEmbauche}
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -707,9 +707,7 @@ export class ExampleDataSource extends DataSource<Issue> {
                 case 'DateEmbauche':
                     [propertyA, propertyB] = [a.DateEmbauche, b.DateEmbauche];
                     break;
-                case 'updated_at':
-                    [propertyA, propertyB] = [a.updated_at, b.updated_at];
-                    break;
+
             }
 
             const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

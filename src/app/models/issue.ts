@@ -4,5 +4,4 @@ export class Issue {
   Civilite: string;
   SITUATION_FAMILIALE: string;
   DateEmbauche: any;
-  updated_at: string;
 }
