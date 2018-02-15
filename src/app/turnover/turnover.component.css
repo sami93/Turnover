@@ -1,4 +1,24 @@
 /* Structure */
+.table td, .table th {
+    text-align: center;
+    width: 25%;
+}
+#banner{
+    width: 60%;
+    left: 0px;
+    right: 0px;
+}
+
+#banner img{
+    width: 40%;
+    left: 0px;
+    right: 0px;
+}
+
+.card-header{
+    background-color: 	#00CED1;
+}
+
 .container {
     display: flex;
     flex-direction: column;

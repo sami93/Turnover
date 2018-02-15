@@ -24,7 +24,7 @@ export class DataSetService {
     addDataSet(dataset): Observable<any> {
         console.log(JSON.stringify(dataset));
         console.log(JSON.stringify(this.options));
-        return this.http.post('/api/dataset', JSON.stringify(dataset), this.options);
+        return this.http.post(this.url+'/api/dataset', JSON.stringify(dataset), this.options);
     }
 
     getDataSet(dataset): Observable<any> {

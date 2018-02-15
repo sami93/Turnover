@@ -21,6 +21,7 @@ import {DataSetService} from '../services/dataset.service';
 import swal from 'sweetalert2';
 import {PredictionService} from '../services/prediction.service';
 import {Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-turnover',
@@ -37,13 +38,36 @@ export class TurnoverComponent implements OnInit {
     name_value: any;
     column_names: any[];
 
+    /* Declaration Adding  DataSet */
+    addDataSetForm: FormGroup;
+    Name = new FormControl('', Validators.required);
+    Age = new FormControl('', Validators.required);
+    Civilite = new FormControl('', Validators.required);
+    DateEmbauche = new FormControl('', Validators.required);
+    SITUATION_FAMILIALE = new FormControl('', Validators.required);
+    EXPERIENCE_AVANT_SOFRECOM = new FormControl('', Validators.required);
+    EXPERIENCE_SOFRECOM = new FormControl('', Validators.required);
+    EXPERIENCE_Totale = new FormControl('', Validators.required);
+    Ecole = new FormControl('', Validators.required);
+    Manager = new FormControl('', Validators.required);
+    Matricule = new FormControl('', Validators.required);
+    Metier = new FormControl('', Validators.required);
+    Pole = new FormControl('', Validators.required);
+    Poste = new FormControl('', Validators.required);
+    C1 = new FormControl('', Validators.required);
+    C2 = new FormControl('', Validators.required);
+    C3 = new FormControl('', Validators.required);
+
+    /* End Declaration for Adding DataSet */
+
     constructor(public httpClient: HttpClient,
                 public http: Http,
                 public dialog: MatDialog,
                 public dataService: DataService,
                 public datasetService: DataSetService,
                 public predictionservice: PredictionService,
-                private router: Router) {
+                private router: Router,
+                private formBuilder: FormBuilder) {
     }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -51,6 +75,25 @@ export class TurnoverComponent implements OnInit {
     @ViewChild('filter') filter: ElementRef;
 
     ngOnInit() {
+        this.addDataSetForm = this.formBuilder.group({
+            Name: this.Name,
+            Age: this.Age,
+            Civilite: this.Civilite,
+            SITUATION_FAMILIALE: this.SITUATION_FAMILIALE,
+            DateEmbauche: this.DateEmbauche,
+            EXPERIENCE_AVANT_SOFRECOM: this.EXPERIENCE_AVANT_SOFRECOM,
+            EXPERIENCE_SOFRECOM: this.EXPERIENCE_SOFRECOM,
+            EXPERIENCE_Totale: this.EXPERIENCE_Totale,
+            Ecole: this.Ecole,
+            Manager: this.Manager,
+            Matricule: this.Matricule,
+            Metier: this.Metier,
+            Pole: this.Pole,
+            Poste: this.Poste,
+            C1: this.C1,
+            C2: this.C2,
+            C3: this.C3
+        });
         this.loadData();
     }
 
@@ -65,6 +108,7 @@ export class TurnoverComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 1) {
+                console.log(this.dataService.getDialogData())
                 this.exampleDatabase.dataChange.value.push(this.dataService.getDialogData());
                 this.refreshTable();
             }
@@ -568,26 +612,28 @@ export class TurnoverComponent implements OnInit {
         this.index = i;
         this.Matricule2 = dataset.Matricule;
         const dialogRef = this.dialog.open(EditDialogComponent, {
-            data: {
-                _id : dataset._id,
-                Matricule: dataset.Matricule,
-                Name: dataset.Name,
-                Civilite: dataset.Civilite,
-                SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE,
-                DateEmbauche: dataset.DateEmbauche,
-                EXPERIENCE_AVANT_SOFRECOM: dataset.EXPERIENCE_AVANT_SOFRECOM,
-                EXPERIENCE_SOFRECOM: dataset.EXPERIENCE_SOFRECOM,
-                EXPERIENCE_Totale: dataset.EXPERIENCE_Totale,
-                Ecole: dataset.Ecole,
-                Manager: dataset.Manager,
-                Metier: dataset.Metier,
-                Pole: dataset.Pole ,
-                Poste: dataset.Poste,
-                C1: dataset.C1,
-                C2: dataset.C2,
-                C3: dataset.C3,
-            }
-    })
+            height: '80%',
+            width: '70%',
+                data: {
+                    _id: dataset._id,
+                    Matricule: dataset.Matricule,
+                    Name: dataset.Name,
+                    Civilite: dataset.Civilite,
+                    SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE,
+                    DateEmbauche: dataset.DateEmbauche,
+                    EXPERIENCE_AVANT_SOFRECOM: dataset.EXPERIENCE_AVANT_SOFRECOM,
+                    EXPERIENCE_SOFRECOM: dataset.EXPERIENCE_SOFRECOM,
+                    EXPERIENCE_Totale: dataset.EXPERIENCE_Totale,
+                    Ecole: dataset.Ecole,
+                    Manager: dataset.Manager,
+                    Metier: dataset.Metier,
+                    Pole: dataset.Pole,
+                    Poste: dataset.Poste,
+                    C1: dataset.C1,
+                    C2: dataset.C2,
+                    C3: dataset.C3,
+                }
+            })
         ;
 
         dialogRef.afterClosed().subscribe(result => {
@@ -607,49 +653,32 @@ export class TurnoverComponent implements OnInit {
         this.index = i;
         this.Matricule2 = dataset.Matricule;
         const dialogRef = this.dialog.open(DeleteDialogComponent, {
-            data: {Matricule: dataset.Matricule, Name: dataset.Name, Civilite: dataset.Civilite, SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE}
+            data: {
+                Matricule: dataset.Matricule,
+                Name: dataset.Name,
+                Civilite: dataset.Civilite,
+                SITUATION_FAMILIALE: dataset.SITUATION_FAMILIALE
+            }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then(() => {
 
+            if (result === 1) {
                 this.datasetService.deleteDataSet(dataset).subscribe(
                     res => {
-                        if (result === 1) {
 
-                            const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.Matricule === this.Matricule2);
-                            console.log(foundIndex);
-                            this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-                            this.refreshTable();
-                        }
+
+                        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(x => x.Matricule === this.Matricule2);
+                        console.log(foundIndex);
+                        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+                        this.refreshTable();
+
                     },
                     error => console.log(error)
                 );
-            }, (dismiss) => {
-                // dismiss can be 'cancel', 'overlay',
-                // 'close', and 'timer'
-                if (dismiss === 'cancel') {
-                    swal(
-                        'Cancelled',
-                        'Your DataSet ' + dataset.Name + ' is safe :)',
-                        'error'
-                    )
-                }
-            });
-
-
-
+            }
         });
     }
-
 
     private refreshTable() {
         // If there's no data in filter we do update using pagination, next page or previous page
@@ -683,6 +712,28 @@ export class TurnoverComponent implements OnInit {
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
     }
+
+    addDataSet() {
+        console.log(this.addDataSetForm.value);
+        console.log('success')
+        this.datasetService.addDataSet(this.addDataSetForm.value).subscribe(
+            res => {
+                console.log(typeof res)
+                console.log(res)
+                console.log(JSON.parse(res._body));
+                console.log('222222');
+                this.exampleDatabase.dataChange.value.push(JSON.parse(res._body));
+                this.refreshTable();
+            },
+            error => {
+                console.log(error);
+                console.log('erreuuur');
+                this.erreur(error, 'Error, Verify if Matricule is Unique');
+            }
+        );
+    }
+
+
 }
 
 

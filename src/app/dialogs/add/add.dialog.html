@@ -5,7 +5,7 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Matricule" [(ngModel)]="data.Matricule" name="Matricule" required >
+        <input matInput #input class="form-control" placeholder="Matricule" [(ngModel)]="data.Matricule" name="Matricule" required  >
         <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
