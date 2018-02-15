@@ -58,13 +58,13 @@
             </mat-header-cell>
 
             <mat-cell *matCellDef="let row; let i=index;">
-                <button mat-icon-button color="accent" (click)="startEdit(i, row)">
+                <button mat-icon-button color="accent" (click)="startEdit(i, row)" matTooltip="Editer {{row.Matricule}}" [matTooltipPosition]="'left'">
                     <mat-icon aria-label="Edit">edit</mat-icon>
                 </button>
-                <button class="btn btn-sm btn-info" (click)="infoPersonne(row)"><i class="fa fa-info" ></i> Info</button>
+                <button mat-icon-button color="accent" aria-label="Info" (click)="infoPersonne(row)" matTooltip="Information de {{row.Matricule}}" [matTooltipPosition]="'above'"> <mat-icon >info</mat-icon></button>
 
-                <button mat-icon-button color="accent" (click)="deleteItem(i, row)">
-                    <mat-icon aria-label="Delete">delete</mat-icon>
+                <button mat-icon-button color="accent" (click)="deleteItem(i, row)" matTooltip="Supprimer {{row.Matricule}}" [matTooltipPosition]="'above'" >
+                    <mat-icon aria-label="Delete" >delete</mat-icon>
                 </button>
             </mat-cell>
         </ng-container>
