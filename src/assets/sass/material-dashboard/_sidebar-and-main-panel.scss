@@ -534,6 +534,23 @@
                         padding-left: 40px;
                     }
                 }
+                .logo-sofrecom{
+                    a{
+                        opacity: 0;
+                        text-align:center;
+                        position: relative;
+                        padding-left: 40px;
+                        width:20px;
+                        height:20px;
+                        margin: 0 auto;
+                    }
+                }
+                .center {
+                    position: relative;          /* where the next element will be automatically positioned */
+                    display: inline-block;       /* causes element width to shrink to fit content */
+                    left: 50%;                   /* moves left side of image/element to center of parent element */
+                    transform: translate(-50%);  /* centers image/element on "left: 50%" position */
+                }
             }
         }
 
@@ -599,7 +616,22 @@
                     }
 
                 }
+                .logo-sofrecom{
+                    a{
+                        opacity: 1;
+                        padding-left: 0;
+                        width:20px;
+                        height:20px;
+                        margin: 0 auto;
+                    }
 
+                }
+                .center {
+                    position: relative;          /* where the next element will be automatically positioned */
+                    display: inline-block;       /* causes element width to shrink to fit content */
+                    left: 50%;                   /* moves left side of image/element to center of parent element */
+                    transform: translate(-50%);  /* centers image/element on "left: 50%" position */
+                }
                 .logo-mini{
                     position: absolute;
                     top: 18px;

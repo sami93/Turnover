@@ -5879,7 +5879,7 @@ h2.title {
     padding-left: 45px;
     opacity: 0;
   }
-  .sidebar-mini .sidebar .logo .logo-normal a {
+  .sidebar-mini .sidebar .logo .logo-normal  a {
     opacity: 0;
     text-align: center;
     position: relative;
